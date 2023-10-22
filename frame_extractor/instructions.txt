@@ -1,0 +1,21 @@
+# Convert to 1fps
+ffmpeg -i Bali_klungkung_besakih.mp4 -filter:v fps=1 -an bali_1fps.mp4
+
+# Find all files with certain extension in folder recursively and copy the file to another folder
+find . -type f -name "*.mp4" -exec cp {} ../pu_province_videos/ \;
+
+# Extract the frame and detected defects
+
+
+# Crop video from top with certain pixels
+ffmpeg -i 1703411_L1.mp4 -vf crop=iw:ih-125:0:125 1703411_crop_L1.mp4
+
+# Crop video from top to certain height
+ffmpeg -i bangka_belitung_1fps.mp4 -vf crop=iw:ih-150:0:0 bangka_belitung_crop_1fps.mp4
+
+# Split the dataset with certain size and certain name
+for i in `seq 1 10`; do mkdir -p "annotation_$i"; find . -maxdepth 1 -type f | head -n 300 | xargs -i mv "{}" "annotation_$i"; done
+
+
+# Zip file based on folders
+find . -maxdepth 1 -mindepth 1 -type d -exec zip -r -j "{}.zip" "{}" \;
